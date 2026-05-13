@@ -1,0 +1,150 @@
+# ─────────────────────────────────────────────────────────────────
+#  Recordatorio de Medicinas — GitHub Actions + CallMeBot
+#  Venezuela = UTC-4  →  todos los horarios están convertidos a UTC
+#
+#  Horario:
+#   08:00 VET = 12:00 UTC  → Spirulina
+#   08:30 VET = 12:30 UTC  → Asaprol
+#   10:00 VET = 14:00 UTC  → Muxer
+#   11:00 VET = 15:00 UTC  → Detox Complex
+#   12:00 VET = 16:00 UTC  → Omega 3 (almuerzo)
+#   16:00 VET = 20:00 UTC  → Spirulina
+#   19:00 VET = 23:00 UTC  → Magnesio
+#   20:00 VET = 00:00 UTC  → Ashwagandha
+#   22:00 VET = 02:00 UTC  → Muxer
+#   23:00 VET = 03:00 UTC  → Detox Complex
+#   00:00 VET = 04:00 UTC  → Spirulina (medianoche)
+# ─────────────────────────────────────────────────────────────────
+
+name: Recordatorio Medicinas
+
+on:
+  schedule:
+    - cron: "0 12 * * *"    # 08:00 VET — Spirulina
+    - cron: "30 12 * * *"   # 08:30 VET — Asaprol
+    - cron: "0 14 * * *"    # 10:00 VET — Muxer
+    - cron: "0 15 * * *"    # 11:00 VET — Detox Complex
+    - cron: "0 16 * * *"    # 12:00 VET — Omega 3
+    - cron: "0 20 * * *"    # 16:00 VET — Spirulina
+    - cron: "0 23 * * *"    # 19:00 VET — Magnesio
+    - cron: "0 0 * * *"     # 20:00 VET — Ashwagandha
+    - cron: "0 2 * * *"     # 22:00 VET — Muxer
+    - cron: "0 3 * * *"     # 23:00 VET — Detox Complex
+    - cron: "0 4 * * *"     # 00:00 VET — Spirulina (medianoche)
+  workflow_dispatch: {}     # permite correrlo manualmente para probar
+
+env:
+  MI_NUMERO:       ${{ secrets.MI_NUMERO }}
+  CALLMEBOT_KEY:   ${{ secrets.CALLMEBOT_KEY }}
+
+jobs:
+
+  # ── 08:00 VET ─────────────────────────────
+  spirulina-manana:
+    if: github.event.schedule == '0 12 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Spirulina"
+
+  # ── 08:30 VET ─────────────────────────────
+  asaprol:
+    if: github.event.schedule == '30 12 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Asaprol"
+
+  # ── 10:00 VET ─────────────────────────────
+  muxer-manana:
+    if: github.event.schedule == '0 14 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Muxer"
+
+  # ── 11:00 VET ─────────────────────────────
+  detox-manana:
+    if: github.event.schedule == '0 15 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Detox Complex"
+
+  # ── 12:00 VET ─────────────────────────────
+  omega3-almuerzo:
+    if: github.event.schedule == '0 16 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Omega 3" "Tomar con el almuerzo"
+
+  # ── 16:00 VET ─────────────────────────────
+  spirulina-tarde:
+    if: github.event.schedule == '0 20 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Spirulina"
+
+  # ── 19:00 VET ─────────────────────────────
+  magnesio:
+    if: github.event.schedule == '0 23 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Magnesio"
+
+  # ── 20:00 VET ─────────────────────────────
+  ashwagandha:
+    if: github.event.schedule == '0 0 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Ashwagandha"
+
+  # ── 22:00 VET ─────────────────────────────
+  muxer-noche:
+    if: github.event.schedule == '0 2 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Muxer"
+
+  # ── 23:00 VET ─────────────────────────────
+  detox-noche:
+    if: github.event.schedule == '0 3 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Detox Complex"
+
+  # ── 00:00 VET (medianoche) ────────────────
+  spirulina-medianoche:
+    if: github.event.schedule == '0 4 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "Spirulina" "Ultima dosis del dia"
