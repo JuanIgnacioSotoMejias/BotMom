@@ -20,17 +20,30 @@ def enviar(medicinas: str, nota: str = ""):
     hora_vet = hora - timedelta(hours=4)
     hora_fmt = hora_vet.strftime("%I:%M %p")
 
-    lista = "\n".join([f"  💊 {m.strip()}" for m in medicinas.split(",")])
-    nota_txt = f"\n📌 {nota}" if nota else ""
+    if medicinas == "ACTIVACION":
+        cuerpo = (
+            f"✅ *BotMom Activado*\n"
+            f"🕐 {hora_fmt} (Venezuela)\n\n"
+            f"{nota}"
+        )
+    elif medicinas == "DESACTIVACION":
+        cuerpo = (
+            f"💤 *BotMom Desactivado*\n"
+            f"🕐 {hora_fmt} (Venezuela)\n\n"
+            f"{nota}"
+        )
+    else:
+        lista = "\n".join([f"  💊 {m.strip()}" for m in medicinas.split(",")])
+        nota_txt = f"\n📌 {nota}" if nota else ""
 
-    cuerpo = (
-        f"🔔 Recordatorio de Medicinas\n"
-        f"🕐 {hora_fmt} (Venezuela)\n\n"
-        f"Es hora de tomar:\n"
-        f"{lista}"
-        f"{nota_txt}\n\n"
-        f"✅ No olvides tomarlas con agua!"
-    )
+        cuerpo = (
+            f"🔔 Recordatorio de Medicinas\n"
+            f"🕐 {hora_fmt} (Venezuela)\n\n"
+            f"Es hora de tomar:\n"
+            f"{lista}"
+            f"{nota_txt}\n\n"
+            f"✅ No olvides tomarlas con agua!"
+        )
 
     texto_encoded = urllib.parse.quote(cuerpo)
     url = f"https://api.callmebot.com/whatsapp.php?phone={MI_NUMERO}&text={texto_encoded}&apikey={API_KEY}"
