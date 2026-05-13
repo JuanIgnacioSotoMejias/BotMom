@@ -41,6 +41,17 @@ env:
 
 jobs:
 
+  # ── PRUEBA MANUAL ─────────────────────────────
+  prueba-manual:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python send_reminder.py "ACTIVACION" "Prueba manual iniciada exitosamente desde GitHub."
+
+
   # ── 07:00 VET ─────────────────────────────
   activacion:
     if: github.event.schedule == '0 11 * * *'
